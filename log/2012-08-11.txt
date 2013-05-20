@@ -1,0 +1,2 @@
+08-11 10:52:20
+[SQL错误]：select name from `articles` where cid = '37'  order by `id` desc limit 0,\nYou have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1\n\n

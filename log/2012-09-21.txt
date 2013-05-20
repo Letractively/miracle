@@ -1,0 +1,4 @@
+09-21 16:33:25
+[SQL错误]：select count(`id`) from `notices` where mobile = '' and is_read = '1' \nTable 'wo.notices' doesn't exist\n\n
+09-21 16:42:06
+[SQL错误]：select count(`id`) from `notices` where mobile = '' and is_read = '1' \nTable 'wo.notices' doesn't exist\n\n
