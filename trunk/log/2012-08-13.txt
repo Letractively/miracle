@@ -1,0 +1,4 @@
+08-13 15:32:16
+[SQL错误]：insert into `messages`  (`mobile`,`content`,`uid`,`created_at`,`updated_at`)values('15811030032','*a*s*d*a*s*d*','1','2012-08-13 03:32:16','2012-08-13 03:32:16')\nUnknown column 'uid' in 'field list'\n\n
+08-13 15:32:27
+[SQL错误]：insert into `messages`  (`mobile`,`content`,`uid`,`created_at`,`updated_at`)values('15811030032','*a*s*d*a*s*d*','1','2012-08-13 03:32:27','2012-08-13 03:32:27')\nUnknown column 'uid' in 'field list'\n\n

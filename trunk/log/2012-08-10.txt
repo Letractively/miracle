@@ -1,0 +1,4 @@
+08-10 23:22:12
+[SQL错误]：update `categorys` set  `name`='123123', `category_lists_cid`='0', `category_lists_name`='', `parent_id`='0', `is_home`='1', `home_limit`='0', `home_position`='0', `content`='<p>wedwe</p>', `category_lists`='a:2:{s:3:\"cid\";s:1:\"0\";s:4:\"name\";s:0:\"\";}', `updated_at`='2012-08-10 11:22:12' where id = '44' \nUnknown column 'category_lists_cid' in 'field list'\n\n
+08-10 23:22:48
+[SQL错误]：update `categorys` set  `name`='12313', `category_lists_cid`='0', `category_lists_name`='', `parent_id`='0', `is_home`='1', `home_limit`='0', `home_position`='0', `content`='<p>3123</p>', `category_lists`='a:2:{s:3:\"cid\";s:1:\"0\";s:4:\"name\";s:0:\"\";}', `updated_at`='2012-08-10 11:22:48' where id = '45' \nUnknown column 'category_lists_cid' in 'field list'\n\n

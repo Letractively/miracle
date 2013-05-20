@@ -1,0 +1,2 @@
+09-17 17:28:12
+[SQL错误]：select mobile,point from `mobiles` where mobile = '15110246934' \nUnknown column 'point' in 'field list'\n\n
