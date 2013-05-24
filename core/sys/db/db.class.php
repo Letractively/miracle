@@ -126,6 +126,17 @@ class Db{
 	public static function insert_to_sql($table,$value){
 		return "insert into `$table` $value";
 	}
+	
+	/**
+	 * 将条件和repalce语句结合
+	 *
+	 * @param array $table 表名
+	 * @param array $value 插入值的sql string
+	 * @return string
+	 */
+	public static function repalce_to_sql($table,$value){
+		return "replace into `$table` $value";
+	}
 	/**
 	 * 将条件和UPDATE语句结合
 	 *

@@ -77,8 +77,9 @@ class Application{
 
 		//规则验证器
 		if(!empty($this->_validate)) {
-			$this->validate_obj = new validate($this->_validate,$this->_validate_msg_box,$this); //定义报警器
-			$this->validate_obj->_table_columns = $this->getDbTableColumns($this->_db_config['database'],$this->_tablename);
+			 
+			$this->_validate_obj = new validate($this->_validate,$this->_validate_msg_box,$this); //定义报警器
+			$this->_validate_obj->_table_columns = $this->getDbTableColumns($this->_db_config['database'],$this->_tablename);
 		}
 	}
 
@@ -104,8 +105,8 @@ class Application{
 	 */
 	public function delete($condition){
 		if(empty($condition)) return false; //条件为空时不能更新表
-		if($this->validate_obj!=null && is_array($condition)){
-			$condition = $this->validate_obj->check($condition,'r');
+		if($this->_validate_obj!=null && is_array($condition)){
+			$condition = $this->_validate_obj->check($condition,'r');
 		}
 
 		$sql = Db::delete_to_sql($this->_tablename);
@@ -129,13 +130,13 @@ class Application{
 	public function increase($condition,$data, $is_validate=true){
 		if(empty($data) || !is_array($data)) return false;
 		if(empty($condition)) return false; //条件为空时不能更新表
-		if($this->validate_obj!=null){
+		if($this->_validate_obj!=null){
 			if($is_validate){
-				$data = $this->validate_obj->check($data);
+				$data = $this->_validate_obj->check($data);
 				$this->_form_data = $data;
 			}
 			if(is_array($condition)){
-				$condition = $this->validate_obj->check($condition,'r');
+				$condition = $this->_validate_obj->check($condition,'r');
 			}
 		}
 		$new_data =  '';
@@ -159,18 +160,20 @@ class Application{
 	 * @param bool $is_validate 是否对模型进行验证
 	 * @return bool
 	 */
-	public function update($condition ,$data , $is_auto_update_time=true, $is_validate=true){
-		if(empty($data) || !is_array($data)) return false;
+	public function update($condition ,$data=array() , $is_auto_update_time=true, $is_validate=true){
+			
+		if( !is_array($data)) return false;
+	
 		if(empty($condition)) return false; //条件为空时不能更新表
-		if($this->validate_obj!=null){
+		if($this->_validate_obj!=null){
 			if($is_validate){
 				$this->_form_data = $data;
 				
-				$data = $this->validate_obj->check($data);
+				$data = $this->_validate_obj->check($data);
 				
 			}
 			if(is_array($condition)){
-				$condition = $this->validate_obj->check($condition,'r');
+				$condition = $this->_validate_obj->check($condition,'r');
 			}
 		}
 	
@@ -210,10 +213,10 @@ class Application{
 		
 		if(empty($data) || !is_array($data)) return false;
 		
-		if($this->validate_obj!=null && $is_validate){
+		if($this->_validate_obj!=null && $is_validate){
 			
 			$this->_form_data = $data;
-			$data = $this->validate_obj->check($data,'w','full');
+			$data = $this->_validate_obj->check($data,'w','full');
 		}
 		
 		if( $is_auto_insert_time ){
@@ -231,7 +234,44 @@ class Application{
 		return $result;
 
 	}
+	
+	
+	/**
+	 * 通用表替换或插入一条数据
+	 *
+	 * @param array $data 插入的关联数组
+	 * @param bool $is_auto_update_time 是否自动维护更新字段
+	 * @param bool $is_auto_insert_time 是否自动维护插入字段
+	 * @param bool $is_validate 是否模型层验证
+	 * @return bool 
+	 */
+	public function replace($data, $is_auto_update_time=false, $is_auto_insert_time=false,$is_validate=true){
+		
+		if(empty($data) || !is_array($data)) return false;
+		
+		if($this->_validate_obj!=null && $is_validate){
+			
+			$this->_form_data = $data;
+			$data = $this->_validate_obj->check($data,'w','full');
+		}
+		
+		if( $is_auto_insert_time ){
+			$data['created_at'] =  date('Y-m-d H:i:s',time());
+		}
+		if( $is_auto_update_time ){
+			$data['updated_at']  = date('Y-m-d H:i:s',time());
+		}
+		$insert_values = Db::insert_value_to_sql($data);
+		$this->_last_sql = Db::repalce_to_sql($this->_tablename,$insert_values);
+	
+		$result = $this->_db->execute($this->_last_sql);
+		if($result) $this->_last_insert_id = $this->_db->_last_insert_id;
+	
+		return $result;
 
+	}
+	
+	
 	/**
 	 * 通用表插入一条数据(忽略验证)
 	 *
@@ -287,8 +327,8 @@ class Application{
 	public function count($condition=array(),$primary_key='id'){
 
 
-		if($this->validate_obj!=null && is_array($condition)){
-			$condition = $this->validate_obj->check($condition,'r');
+		if($this->_validate_obj!=null && is_array($condition)){
+			$condition = $this->_validate_obj->check($condition,'r');
 		}
 		$sql = Db::select_to_sql("count(`$primary_key`)",$this->_tablename) ;
 		if(!empty($condition)){ $sql .=  Db::condition_to_sql($condition); }
@@ -304,10 +344,12 @@ class Application{
 	  * @return array
 	  */
 	public function  view($condition,$is_validate=true){
-
-		if($this->validate_obj!=null && is_array($condition) && $is_validate){
-			$condition = $this->validate_obj->check($condition,'r');
+		 
+		if($this->_validate_obj!=null && is_array($condition) && $is_validate){
+			
+			$condition = $this->_validate_obj->check($condition,'r');
 		}
+		
 		$sql = Db::select_to_sql($this->_items,$this->_tablename) ;
 		unset($this->_items);
 		if(!empty($condition)){ $sql .=  Db::condition_to_sql($condition); }
@@ -329,8 +371,8 @@ class Application{
 	 */
 	public  function lists($condition=array(),$order='',$start=0,$limit=100){
 
-		if($this->validate_obj!=null && is_array($condition)){
-			$condition = $this->validate_obj->check($condition,'r');
+		if($this->_validate_obj!=null && is_array($condition)){
+			$condition = $this->_validate_obj->check($condition,'r');
 		}
 		$sql = Db::select_to_sql($this->_items,$this->_tablename) ;
 		unset($this->_items);
