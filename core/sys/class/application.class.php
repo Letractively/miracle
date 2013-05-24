@@ -77,7 +77,6 @@ class Application{
 
 		//规则验证器
 		if(!empty($this->_validate)) {
-		
 			$this->validate_obj = new validate($this->_validate,$this->_validate_msg_box,$this); //定义报警器
 			$this->validate_obj->_table_columns = $this->getDbTableColumns($this->_db_config['database'],$this->_tablename);
 		}
@@ -141,7 +140,7 @@ class Application{
 		}
 		$new_data =  '';
 		foreach ($data as $k=>$v){ $new_data .= " $k=$k+1 ,"; }
-		$time['updated_at']  = date('Y-m-d h:i:s',time());
+		$time['updated_at']  = date('Y-m-d H:i:s',time());
 		foreach ($time as $k=>$v){ $new_data .= " $k='$v' ,"; }
 		$new_data = substr($new_data,0,strlen($new_data)-1);
 		$sql = Db::update_to_sql($this->_tablename,$new_data);
@@ -176,7 +175,7 @@ class Application{
 		}
 	
 		if( $is_auto_update_time ){
-			$data['updated_at']  = date('Y-m-d h:i:s',time());
+			$data['updated_at']  = date('Y-m-d H:i:s',time());
 		}
 		
 		$new_data = Db::set_value_to_sql($data);
@@ -218,10 +217,10 @@ class Application{
 		}
 		
 		if( $is_auto_insert_time ){
-			$data['created_at'] =  date('Y-m-d h:i:s',time());
+			$data['created_at'] =  date('Y-m-d H:i:s',time());
 		}
 		if( $is_auto_update_time ){
-			$data['updated_at']  = date('Y-m-d h:i:s',time());
+			$data['updated_at']  = date('Y-m-d H:i:s',time());
 		}
 		$insert_values = Db::insert_value_to_sql($data);
 		$this->_last_sql = Db::insert_to_sql($this->_tablename,$insert_values);
@@ -287,14 +286,14 @@ class Application{
 	 */
 	public function count($condition=array(),$primary_key='id'){
 
-		$list = (is_array($list))?$list:array();
+
 		if($this->validate_obj!=null && is_array($condition)){
 			$condition = $this->validate_obj->check($condition,'r');
 		}
 		$sql = Db::select_to_sql("count(`$primary_key`)",$this->_tablename) ;
 		if(!empty($condition)){ $sql .=  Db::condition_to_sql($condition); }
 		$this->_last_sql = $sql;
-	
+		
 		return $this->_db->getOne($sql);
 	}
 
@@ -312,6 +311,7 @@ class Application{
 		$sql = Db::select_to_sql($this->_items,$this->_tablename) ;
 		unset($this->_items);
 		if(!empty($condition)){ $sql .=  Db::condition_to_sql($condition); }
+		if(!empty($order)){ $sql .= Db::order_to_sql($order); }
 		$this->_last_sql = $sql;
 		return $this->_db->getRow($sql);
 

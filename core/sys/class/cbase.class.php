@@ -45,7 +45,6 @@ class cBase{
 		if(is_null($this->tpl)){
 			$this->tpl =  Tpl::getInstance();
 			if (method_exists($this,'filter') ){
-				echo $absolute_method;
 				if(!in_array($this->_absolute_class,$this->_filter_except_class) && !in_array($this->_absolute_method,$this->_filter_except_method)){
 					$this->filter();
 				}
