@@ -351,7 +351,7 @@ class Application{
 		}
 		
 		$sql = Db::select_to_sql($this->_items,$this->_tablename) ;
-		unset($this->_items);
+		$this->_items='';
 		if(!empty($condition)){ $sql .=  Db::condition_to_sql($condition); }
 		if(!empty($order)){ $sql .= Db::order_to_sql($order); }
 		$this->_last_sql = $sql;
@@ -375,7 +375,7 @@ class Application{
 			$condition = $this->_validate_obj->check($condition,'r');
 		}
 		$sql = Db::select_to_sql($this->_items,$this->_tablename) ;
-		unset($this->_items);
+		$this->_items='';
 		if(!empty($condition)){ $sql .=  Db::condition_to_sql($condition); }
 		if(!empty($order)){ $sql .= Db::order_to_sql($order); }
 		$sql .=  Db::limit_to_sql($start,$limit);
