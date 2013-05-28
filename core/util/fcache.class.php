@@ -101,8 +101,10 @@ class Fcache  {
 	 *
 	 */
 	private function file_get_contents($path){
-		$data = file_get_contents($path);
-		
+		$data='';
+		if( file_exists($path)){
+			$data = @file_get_contents($path);
+		}
 		if( $data ) {
 			$data = unserialize($data);
 //			echo  time() - $data['time'].'<br />'.$data['expire'].'<br />';
