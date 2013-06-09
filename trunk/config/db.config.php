@@ -9,17 +9,10 @@ $default_db_config =array(
 );
 $module_config = array(
 	'fruits'=>array(
-		'host'=>'117.79.236.110',
-		'user'=>'qiji',
-		'pass'=>'7g!@#QAZ^&*',
-		'database'=>'produce_7g',
-		'charset'=>default_db_charset
-	),
-	'fruitcategorys'=>array(
-		'host'=>'117.79.236.110',
-		'user'=>'qiji',
-		'pass'=>'7g!@#QAZ^&*',
-		'database'=>'produce_7g',
+		'host'=>'0',
+		'user'=>'#',
+		'pass'=>'#',
+		'database'=>'#',
 		'charset'=>default_db_charset
 	),
 );
