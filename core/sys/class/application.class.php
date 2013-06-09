@@ -127,7 +127,7 @@ class Application{
 	 * @param bool $is_validate 是否验证数据
 	 * @return bool
 	 */
-	public function increase($condition,$data, $is_validate=true){
+	public function increase($condition,$data, $is_auto_update_time=true,$is_validate=true){
 		if(empty($data) || !is_array($data)) return false;
 		if(empty($condition)) return false; //条件为空时不能更新表
 		if($this->_validate_obj!=null){
@@ -141,8 +141,9 @@ class Application{
 		}
 		$new_data =  '';
 		foreach ($data as $k=>$v){ $new_data .= " $k=$k+1 ,"; }
-		$time['updated_at']  = date('Y-m-d H:i:s',time());
-		foreach ($time as $k=>$v){ $new_data .= " $k='$v' ,"; }
+		if( $is_auto_update_time) {
+			$data['updated_at']  = date('Y-m-d H:i:s',time());
+		}
 		$new_data = substr($new_data,0,strlen($new_data)-1);
 		$sql = Db::update_to_sql($this->_tablename,$new_data);
 		if(!empty($condition)){ $sql .= Db::condition_to_sql($condition); } //设置更新数据的条件
