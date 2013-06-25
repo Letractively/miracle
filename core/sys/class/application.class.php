@@ -32,7 +32,7 @@ class Application{
  
 
 	//绑定表字段规则
-	protected $_validate;
+	protected $_validate=array();
 
 	//验证器异常抛出函数
 	protected $_validate_msg_box = 'show_msg';
@@ -76,8 +76,7 @@ class Application{
 		$this->_db = Db::getInstance($this->_db_config);
 
 		//规则验证器
-		if(!empty($this->_validate)) {
-			 
+		if(is_array($this->_validate)) {
 			$this->_validate_obj = new validate($this->_validate,$this->_validate_msg_box,$this); //定义报警器
 			$this->_validate_obj->_table_columns = $this->getDbTableColumns($this->_db_config['database'],$this->_tablename);
 		}
@@ -213,7 +212,6 @@ class Application{
 	public function add($data, $is_auto_update_time=true, $is_auto_insert_time=true,$is_validate=true){
 		
 		if(empty($data) || !is_array($data)) return false;
-		
 		if($this->_validate_obj!=null && $is_validate){
 			
 			$this->_form_data = $data;
