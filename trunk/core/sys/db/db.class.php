@@ -42,20 +42,20 @@ class Db{
 		if(is_array($condition)){
 			$sql_condition='where';
 			foreach ($condition as $k=>$v){
-				if(preg_match('/\{(.*)\}/isU',$v,$stra)){
-					$sql_condition .= " $k {$stra[1]} and";
+				if($k!='{sql}'){
+					if(preg_match('/\{(.*)\}/isU',$v,$stra)){
+						$sql_condition .= " $k {$stra[1]} and";
+					}else{
+						$sql_condition .= " $k = '".mysql_escpage($v)."' and";
+					}
 				}else{
-					
-					$sql_condition .= " $k = '".mysql_escpage($v)."' and";
-					
+					$sql_condition .= " $v and"; 
 				}
-				
 			}
 			$sql_condition = substr($sql_condition,0,strlen($sql_condition)-3);
 		}else{
 			$sql_condition .= (empty($condition))?'': "where ".$condition;
 		}
-		
 		return $sql_condition;
 	}
 

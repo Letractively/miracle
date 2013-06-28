@@ -79,6 +79,7 @@ class validate{
 			if($type=='w'){
 				$this->_form_data[$k]=$this->filter($v,$rule);
 			}else{
+				if($k=='{sql}') $rule['xss']=false;
 				$this->_form_data[$k]=$this->pre_filter($v,$rule,true);
 			}
 		}
