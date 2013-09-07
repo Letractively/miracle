@@ -7,7 +7,7 @@
 class Application{
 
 	//数据库实例
-	protected $_db;
+	public  $_db;
 
 	//数据库配置
 	protected $_db_config;
@@ -342,7 +342,7 @@ class Application{
 	  * @param array/string $condition 筛选条件
 	  * @return array
 	  */
-	public function  view($condition,$is_validate=true){
+	public function  view($condition,$order='',$is_validate=true){
 		 
 		if($this->_validate_obj!=null && is_array($condition) && $is_validate){
 			
