@@ -6,6 +6,7 @@
 	'Tpl'=>'sys/tpl/tpl.class.php',
 	'Template'=>'sys/tpl/template.class.php',
 	'Application'=>'sys/class/application.class.php',
+	'mysqlrelation'=>'sys/class/mysqlrelation.class.php',
 	'fApplication'=>'sys/class/fapplication.extend.php',
 	'Log'=>'sys/class/log.class.php',
 	'pageCache'=>'sys/class/pagecache.class.php',
